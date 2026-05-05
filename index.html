@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Proxy</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: #0f0f1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 8px; }
+    p { color: #888; margin-bottom: 32px; }
+    .search-box {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+      gap: 8px;
+      padding: 0 16px;
+    }
+    input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      background: #1e1e30;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+    input:focus { border-color: #5865f2; }
+    button {
+      padding: 14px 24px;
+      background: #5865f2;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #4752c4; }
+    .shortcuts {
+      margin-top: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      max-width: 600px;
+      padding: 0 16px;
+    }
+    .shortcut {
+      background: #1e1e30;
+      border: 1px solid #2a2a40;
+      border-radius: 10px;
+      padding: 12px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    .shortcut:hover { background: #2a2a50; }
+  </style>
+</head>
+<body>
+  <h1>🌐 My Proxy</h1>
+  <p>Browse freely — type any URL below</p>
+  <div class="search-box">
+    <input id="url" type="text" placeholder="https://example.com" autofocus />
+    <button onclick="go()">Go</button>
+  </div>
+  <div class="shortcuts">
+    <a class="shortcut" onclick="visit('https://www.google.com')">🔍 Google</a>
+    <a class="shortcut" onclick="visit('https://www.youtube.com')">▶️ YouTube</a>
+    <a class="shortcut" onclick="visit('https://store.steampowered.com')">🎮 Steam</a>
+    <a class="shortcut" onclick="visit('https://www.reddit.com')">💬 Reddit</a>
+    <a class="shortcut" onclick="visit('https://www.twitch.tv')">📺 Twitch</a>
+    <a class="shortcut" onclick="visit('https://discord.com')">🎧 Discord</a>
+  </div>
+
+  <script>
+    function go() {
+      let url = document.getElementById('url').value.trim();
+      if (!url) return;
+      if (!url.startsWith('http')) url = 'https://' + url;
+      window.location.href = '/proxy?url=' + encodeURIComponent(url);
+    }
+    function visit(url) {
+      window.location.href = '/proxy?url=' + encodeURIComponent(url);
+    }
+    document.getElementById('url').addEventListener('keydown', e => {
+      if (e.key === 'Enter') go();
+    });
+  </script>
+</body>
+</html>
