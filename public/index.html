@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Proxy</title>
+  <title>FreeProxy</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -16,7 +16,6 @@
       --muted: #5a5a7a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       min-height: 100vh;
       background: var(--bg);
@@ -29,145 +28,93 @@
       padding: 24px;
       overflow: hidden;
     }
-
     .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.15;
+      position: fixed; border-radius: 50%;
+      filter: blur(80px); opacity: 0.13;
       animation: drift 10s ease-in-out infinite alternate;
       pointer-events: none;
     }
-    .blob1 { width: 400px; height: 400px; background: var(--accent); top: -100px; left: -100px; animation-delay: 0s; }
+    .blob1 { width: 400px; height: 400px; background: var(--accent); top: -100px; left: -100px; }
     .blob2 { width: 300px; height: 300px; background: var(--accent2); bottom: -80px; right: -80px; animation-delay: 3s; }
-    .blob3 { width: 200px; height: 200px; background: #6affda; top: 50%; left: 50%; animation-delay: 6s; }
-
+    .blob3 { width: 200px; height: 200px; background: #6affda; top: 40%; left: 45%; animation-delay: 6s; }
     @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to { transform: translate(30px, 20px) scale(1.1); }
+      from { transform: translate(0,0) scale(1); }
+      to { transform: translate(30px,20px) scale(1.1); }
     }
-
     .container {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 640px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 32px;
+      position: relative; z-index: 1;
+      width: 100%; max-width: 640px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 28px;
       animation: fadeUp 0.6s ease both;
     }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     .logo { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-
     .logo-icon {
       font-size: 48px;
       animation: pulse 3s ease-in-out infinite;
     }
-
     @keyframes pulse {
-      0%, 100% { filter: drop-shadow(0 0 20px var(--accent)); }
+      0%,100% { filter: drop-shadow(0 0 20px var(--accent)); }
       50% { filter: drop-shadow(0 0 35px var(--accent2)); }
     }
-
     h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 2.4rem;
-      font-weight: 800;
+      font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -1px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; letter-spacing: -1px;
     }
-
     .subtitle { color: var(--muted); font-size: 14px; }
-
     .search-wrap { width: 100%; display: flex; gap: 10px; }
-
     input {
-      flex: 1;
-      padding: 16px 20px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-size: 15px;
-      font-family: 'DM Sans', sans-serif;
-      outline: none;
-      transition: border 0.2s, box-shadow 0.2s;
+      flex: 1; padding: 15px 18px; border-radius: 14px;
+      border: 1px solid var(--border); background: var(--card);
+      color: var(--text); font-size: 15px; font-family: 'DM Sans', sans-serif;
+      outline: none; transition: border 0.2s, box-shadow 0.2s;
     }
     input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,106,255,0.15); }
     input::placeholder { color: var(--muted); }
-
-    button.go-btn {
-      padding: 16px 28px;
+    .go-btn {
+      padding: 15px 26px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border: none;
-      border-radius: 14px;
-      color: white;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: 'Syne', sans-serif;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-      white-space: nowrap;
+      border: none; border-radius: 14px; color: white;
+      font-size: 15px; font-weight: 700; font-family: 'Syne', sans-serif;
+      cursor: pointer; transition: opacity 0.2s, transform 0.1s; white-space: nowrap;
     }
-    button.go-btn:hover { opacity: 0.9; transform: scale(1.02); }
-    button.go-btn:active { transform: scale(0.98); }
-
-    .hint { color: var(--muted); font-size: 12px; align-self: flex-start; margin-top: -20px; }
-
+    .go-btn:hover { opacity: 0.9; transform: scale(1.02); }
+    .hint { color: var(--muted); font-size: 12px; align-self: flex-start; margin-top: -16px; }
     .section-label {
-      align-self: flex-start;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--muted);
+      align-self: flex-start; font-size: 11px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
     }
-
     .shortcuts {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      width: 100%; display: grid;
+      grid-template-columns: repeat(3, 1fr); gap: 10px;
     }
-
     .shortcut {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px 12px;
-      cursor: pointer;
-      text-align: center;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 10px; cursor: pointer;
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; gap: 7px;
       transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
       animation: fadeUp 0.6s ease both;
     }
-    .shortcut:nth-child(1) { animation-delay: 0.05s; }
-    .shortcut:nth-child(2) { animation-delay: 0.10s; }
-    .shortcut:nth-child(3) { animation-delay: 0.15s; }
-    .shortcut:nth-child(4) { animation-delay: 0.20s; }
-    .shortcut:nth-child(5) { animation-delay: 0.25s; }
-    .shortcut:nth-child(6) { animation-delay: 0.30s; }
+    .shortcut:nth-child(1){animation-delay:.05s}
+    .shortcut:nth-child(2){animation-delay:.10s}
+    .shortcut:nth-child(3){animation-delay:.15s}
+    .shortcut:nth-child(4){animation-delay:.20s}
+    .shortcut:nth-child(5){animation-delay:.25s}
+    .shortcut:nth-child(6){animation-delay:.30s}
     .shortcut:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
+      border-color: var(--accent); transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(124,106,255,0.15);
     }
-    .shortcut-icon { font-size: 26px; }
-    .shortcut-name { font-size: 13px; font-weight: 500; color: var(--text); }
-    .shortcut-desc { font-size: 11px; color: var(--muted); }
+    .si { font-size: 26px; }
+    .sn { font-size: 13px; font-weight: 500; }
+    .sd { font-size: 11px; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -186,92 +133,62 @@
       <input id="url" type="text" placeholder='Type "steam", "youtube", or any URL...' autofocus />
       <button class="go-btn" onclick="go()">Go →</button>
     </div>
-    <p class="hint">💡 Just type a name like "steam" or "reddit" — no .com needed</p>
+    <p class="hint">💡 Type a name like "steam" or "poki" — no .com needed. Unknown words become Google searches.</p>
 
     <p class="section-label">Quick Access</p>
-
     <div class="shortcuts">
       <div class="shortcut" onclick="visit('https://www.google.com')">
-        <div class="shortcut-icon">🔍</div>
-        <div class="shortcut-name">Google</div>
-        <div class="shortcut-desc">Search anything</div>
+        <div class="si">🔍</div><div class="sn">Google</div><div class="sd">Search anything</div>
       </div>
       <div class="shortcut" onclick="visit('https://www.youtube.com')">
-        <div class="shortcut-icon">▶️</div>
-        <div class="shortcut-name">YouTube</div>
-        <div class="shortcut-desc">Videos & streams</div>
+        <div class="si">▶️</div><div class="sn">YouTube</div><div class="sd">Videos & streams</div>
       </div>
       <div class="shortcut" onclick="visit('https://store.steampowered.com')">
-        <div class="shortcut-icon">🎮</div>
-        <div class="shortcut-name">Steam</div>
-        <div class="shortcut-desc">PC games store</div>
-      </div>
-      <div class="shortcut" onclick="visit('https://www.reddit.com')">
-        <div class="shortcut-icon">💬</div>
-        <div class="shortcut-name">Reddit</div>
-        <div class="shortcut-desc">Communities</div>
-      </div>
-      <div class="shortcut" onclick="visit('https://www.twitch.tv')">
-        <div class="shortcut-icon">📺</div>
-        <div class="shortcut-name">Twitch</div>
-        <div class="shortcut-desc">Live gaming</div>
+        <div class="si">🎮</div><div class="sn">Steam</div><div class="sd">PC games store</div>
       </div>
       <div class="shortcut" onclick="visit('https://poki.com')">
-        <div class="shortcut-icon">🕹️</div>
-        <div class="shortcut-name">Poki</div>
-        <div class="shortcut-desc">Free browser games</div>
+        <div class="si">🕹️</div><div class="sn">Poki</div><div class="sd">Free browser games</div>
+      </div>
+      <div class="shortcut" onclick="visit('https://www.twitch.tv')">
+        <div class="si">📺</div><div class="sn">Twitch</div><div class="sd">Live gaming</div>
+      </div>
+      <div class="shortcut" onclick="visit('https://www.reddit.com')">
+        <div class="si">💬</div><div class="sn">Reddit</div><div class="sd">Communities</div>
       </div>
     </div>
   </div>
 
   <script>
-    const knownSites = {
-      google: 'https://www.google.com',
-      youtube: 'https://www.youtube.com',
-      yt: 'https://www.youtube.com',
-      steam: 'https://store.steampowered.com',
-      reddit: 'https://www.reddit.com',
-      twitch: 'https://www.twitch.tv',
-      discord: 'https://www.discord.com',
-      poki: 'https://poki.com',
-      github: 'https://www.github.com',
-      twitter: 'https://www.twitter.com',
-      x: 'https://www.x.com',
-      facebook: 'https://www.facebook.com',
-      instagram: 'https://www.instagram.com',
-      wikipedia: 'https://www.wikipedia.org',
-      wiki: 'https://www.wikipedia.org',
-      netflix: 'https://www.netflix.com',
-      spotify: 'https://www.spotify.com',
-      amazon: 'https://www.amazon.com',
-      itch: 'https://itch.io',
-      coolmath: 'https://www.coolmathgames.com',
-      coolmathgames: 'https://www.coolmathgames.com',
-      miniclip: 'https://www.miniclip.com',
-      friv: 'https://www.friv.com',
+    const known = {
+      google:'https://www.google.com', youtube:'https://www.youtube.com',
+      yt:'https://www.youtube.com', steam:'https://store.steampowered.com',
+      reddit:'https://www.reddit.com', twitch:'https://www.twitch.tv',
+      discord:'https://www.discord.com', poki:'https://poki.com',
+      github:'https://www.github.com', twitter:'https://www.twitter.com',
+      x:'https://www.x.com', facebook:'https://www.facebook.com',
+      instagram:'https://www.instagram.com', wikipedia:'https://www.wikipedia.org',
+      wiki:'https://www.wikipedia.org', netflix:'https://www.netflix.com',
+      spotify:'https://www.spotify.com', amazon:'https://www.amazon.com',
+      itch:'https://itch.io', coolmath:'https://www.coolmathgames.com',
+      coolmathgames:'https://www.coolmathgames.com', miniclip:'https://www.miniclip.com',
+      friv:'https://www.friv.com', roblox:'https://www.roblox.com',
     };
-
-    function resolveUrl(input) {
+    function resolve(input) {
       input = input.trim();
       if (!input) return null;
       const key = input.toLowerCase().replace(/^www\./, '');
-      if (knownSites[key]) return knownSites[key];
+      if (known[key]) return known[key];
       if (input.startsWith('http://') || input.startsWith('https://')) return input;
       if (input.includes('.')) return 'https://' + input;
-      // Treat as Google search
       return 'https://www.google.com/search?q=' + encodeURIComponent(input);
     }
-
     function go() {
-      const url = resolveUrl(document.getElementById('url').value);
-      if (!url) return;
-      window.location.href = '/proxy?url=' + encodeURIComponent(url);
+      const url = resolve(document.getElementById('url').value);
+      if (url) window.location.href = '/proxy?url=' + encodeURIComponent(url);
     }
-
     function visit(url) {
       window.location.href = '/proxy?url=' + encodeURIComponent(url);
     }
-
     document.getElementById('url').addEventListener('keydown', e => {
       if (e.key === 'Enter') go();
     });
