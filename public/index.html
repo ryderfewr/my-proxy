@@ -45,7 +45,7 @@
       position: relative; z-index: 1;
       width: 100%; max-width: 640px;
       display: flex; flex-direction: column;
-      align-items: center; gap: 28px;
+      align-items: center; gap: 24px;
       animation: fadeUp 0.6s ease both;
     }
     @keyframes fadeUp {
@@ -53,24 +53,60 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .logo { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .logo-icon {
-      font-size: 48px;
-      animation: pulse 3s ease-in-out infinite;
-    }
+    .logo-icon { font-size: 44px; animation: pulse 3s ease-in-out infinite; }
     @keyframes pulse {
       0%,100% { filter: drop-shadow(0 0 20px var(--accent)); }
       50% { filter: drop-shadow(0 0 35px var(--accent2)); }
     }
     h1 {
-      font-family: 'Syne', sans-serif; font-size: 2.4rem; font-weight: 800;
+      font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; letter-spacing: -1px;
     }
     .subtitle { color: var(--muted); font-size: 14px; }
+
+    /* Featured CloudMoon card */
+    .featured {
+      width: 100%;
+      background: linear-gradient(135deg, #1a1040, #2a1060);
+      border: 1px solid var(--accent);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(124,106,255,0.2);
+    }
+    .featured:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(124,106,255,0.35);
+    }
+    .featured-icon { font-size: 42px; flex-shrink: 0; }
+    .featured-text { flex: 1; }
+    .featured-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 4px;
+    }
+    .featured-name {
+      font-family: 'Syne', sans-serif; font-size: 1.4rem;
+      font-weight: 800; color: white; margin-bottom: 4px;
+    }
+    .featured-desc { font-size: 13px; color: #a090cc; }
+    .featured-arrow {
+      font-size: 24px; color: var(--accent); flex-shrink: 0;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
+    }
+
     .search-wrap { width: 100%; display: flex; gap: 10px; }
     input {
-      flex: 1; padding: 15px 18px; border-radius: 14px;
+      flex: 1; padding: 14px 18px; border-radius: 14px;
       border: 1px solid var(--border); background: var(--card);
       color: var(--text); font-size: 15px; font-family: 'DM Sans', sans-serif;
       outline: none; transition: border 0.2s, box-shadow 0.2s;
@@ -78,14 +114,14 @@
     input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,106,255,0.15); }
     input::placeholder { color: var(--muted); }
     .go-btn {
-      padding: 15px 26px;
+      padding: 14px 24px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       border: none; border-radius: 14px; color: white;
       font-size: 15px; font-weight: 700; font-family: 'Syne', sans-serif;
       cursor: pointer; transition: opacity 0.2s, transform 0.1s; white-space: nowrap;
     }
     .go-btn:hover { opacity: 0.9; transform: scale(1.02); }
-    .hint { color: var(--muted); font-size: 12px; align-self: flex-start; margin-top: -16px; }
+
     .section-label {
       align-self: flex-start; font-size: 11px; font-weight: 600;
       letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
@@ -96,34 +132,18 @@
     }
     .shortcut {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px 10px; cursor: pointer;
+      border-radius: 14px; padding: 14px 10px; cursor: pointer;
       text-align: center; display: flex; flex-direction: column;
       align-items: center; gap: 7px;
       transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
-      animation: fadeUp 0.6s ease both;
     }
-    .shortcut:nth-child(1){animation-delay:.05s}
-    .shortcut:nth-child(2){animation-delay:.10s}
-    .shortcut:nth-child(3){animation-delay:.15s}
-    .shortcut:nth-child(4){animation-delay:.20s}
-    .shortcut:nth-child(5){animation-delay:.25s}
-    .shortcut:nth-child(6){animation-delay:.30s}
     .shortcut:hover {
       border-color: var(--accent); transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(124,106,255,0.15);
     }
-    .si { font-size: 26px; }
+    .si { font-size: 24px; }
     .sn { font-size: 13px; font-weight: 500; }
     .sd { font-size: 11px; color: var(--muted); }
-
-    /* Toast notification */
-    #toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-      background: #1e1e35; border: 1px solid var(--accent); color: var(--text);
-      padding: 10px 20px; border-radius: 10px; font-size: 13px;
-      transition: transform 0.3s ease; z-index: 9999; white-space: nowrap;
-    }
-    #toast.show { transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -138,11 +158,21 @@
       <p class="subtitle">Your personal window to the internet</p>
     </div>
 
+    <!-- Featured CloudMoon -->
+    <div class="featured" onclick="visit('https://web.cloudmoonapp.com')">
+      <div class="featured-icon">🎮</div>
+      <div class="featured-text">
+        <div class="featured-label">⭐ Featured — Play Games Free</div>
+        <div class="featured-name">CloudMoon</div>
+        <div class="featured-desc">Stream & play games directly in your browser — no download needed</div>
+      </div>
+      <div class="featured-arrow">→</div>
+    </div>
+
     <div class="search-wrap">
-      <input id="url" type="text" placeholder='Type "steam", "youtube", or any URL...' autofocus />
+      <input id="url" type="text" placeholder='Type "youtube", "poki", or any URL...' autofocus />
       <button class="go-btn" onclick="go()">Go →</button>
     </div>
-    <p class="hint">💡 Each site opens in a new tab so they never interfere with each other</p>
 
     <p class="section-label">Quick Access</p>
     <div class="shortcuts">
@@ -152,14 +182,14 @@
       <div class="shortcut" onclick="visit('https://www.youtube.com')">
         <div class="si">▶️</div><div class="sn">YouTube</div><div class="sd">Videos & streams</div>
       </div>
-      <div class="shortcut" onclick="visit('https://store.steampowered.com')">
-        <div class="si">🎮</div><div class="sn">Steam</div><div class="sd">PC games store</div>
-      </div>
       <div class="shortcut" onclick="visit('https://poki.com')">
         <div class="si">🕹️</div><div class="sn">Poki</div><div class="sd">Free browser games</div>
       </div>
-      <div class="shortcut" onclick="visit('https://www.twitch.tv')">
-        <div class="si">📺</div><div class="sn">Twitch</div><div class="sd">Live gaming</div>
+      <div class="shortcut" onclick="visit('https://itch.io')">
+        <div class="si">🎯</div><div class="sn">itch.io</div><div class="sd">Indie games</div>
+      </div>
+      <div class="shortcut" onclick="visit('https://www.youtube.com/results?search_query=movies+free+full')">
+        <div class="si">🎬</div><div class="sn">Movies</div><div class="sd">Free on YouTube</div>
       </div>
       <div class="shortcut" onclick="visit('https://www.reddit.com')">
         <div class="si">💬</div><div class="sn">Reddit</div><div class="sd">Communities</div>
@@ -167,22 +197,19 @@
     </div>
   </div>
 
-  <div id="toast">🚀 Opening in new tab...</div>
-
   <script>
     const known = {
       google:'https://www.google.com', youtube:'https://www.youtube.com',
-      yt:'https://www.youtube.com', steam:'https://store.steampowered.com',
-      reddit:'https://www.reddit.com', twitch:'https://www.twitch.tv',
-      discord:'https://www.discord.com', poki:'https://poki.com',
+      yt:'https://www.youtube.com', cloudmoon:'https://web.cloudmoonapp.com',
+      cloud:'https://web.cloudmoonapp.com', poki:'https://poki.com',
+      itch:'https://itch.io', reddit:'https://www.reddit.com',
+      twitch:'https://www.twitch.tv', discord:'https://www.discord.com',
       github:'https://www.github.com', twitter:'https://www.twitter.com',
-      x:'https://www.x.com', facebook:'https://www.facebook.com',
-      instagram:'https://www.instagram.com', wikipedia:'https://www.wikipedia.org',
+      x:'https://www.x.com', wikipedia:'https://www.wikipedia.org',
       wiki:'https://www.wikipedia.org', netflix:'https://www.netflix.com',
-      spotify:'https://www.spotify.com', amazon:'https://www.amazon.com',
-      itch:'https://itch.io', coolmath:'https://www.coolmathgames.com',
-      coolmathgames:'https://www.coolmathgames.com', miniclip:'https://www.miniclip.com',
+      spotify:'https://www.spotify.com', steam:'https://store.steampowered.com',
       friv:'https://www.friv.com', roblox:'https://www.roblox.com',
+      coolmath:'https://www.coolmathgames.com',
     };
 
     function resolve(input) {
@@ -195,23 +222,13 @@
       return 'https://www.google.com/search?q=' + encodeURIComponent(input);
     }
 
-    function showToast() {
-      const t = document.getElementById('toast');
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2000);
-    }
-
-    // Always open in a NEW tab so home page never gets overwritten
     function go() {
       const url = resolve(document.getElementById('url').value);
-      if (!url) return;
-      window.open('/proxy?url=' + encodeURIComponent(url), '_blank');
-      showToast();
+      if (url) window.open('/proxy?url=' + encodeURIComponent(url), '_blank');
     }
 
     function visit(url) {
       window.open('/proxy?url=' + encodeURIComponent(url), '_blank');
-      showToast();
     }
 
     document.getElementById('url').addEventListener('keydown', e => {
