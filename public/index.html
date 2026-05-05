@@ -115,6 +115,15 @@
     .si { font-size: 26px; }
     .sn { font-size: 13px; font-weight: 500; }
     .sd { font-size: 11px; color: var(--muted); }
+
+    /* Toast notification */
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #1e1e35; border: 1px solid var(--accent); color: var(--text);
+      padding: 10px 20px; border-radius: 10px; font-size: 13px;
+      transition: transform 0.3s ease; z-index: 9999; white-space: nowrap;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -133,7 +142,7 @@
       <input id="url" type="text" placeholder='Type "steam", "youtube", or any URL...' autofocus />
       <button class="go-btn" onclick="go()">Go →</button>
     </div>
-    <p class="hint">💡 Type a name like "steam" or "poki" — no .com needed. Unknown words become Google searches.</p>
+    <p class="hint">💡 Each site opens in a new tab so they never interfere with each other</p>
 
     <p class="section-label">Quick Access</p>
     <div class="shortcuts">
@@ -158,6 +167,8 @@
     </div>
   </div>
 
+  <div id="toast">🚀 Opening in new tab...</div>
+
   <script>
     const known = {
       google:'https://www.google.com', youtube:'https://www.youtube.com',
@@ -173,6 +184,7 @@
       coolmathgames:'https://www.coolmathgames.com', miniclip:'https://www.miniclip.com',
       friv:'https://www.friv.com', roblox:'https://www.roblox.com',
     };
+
     function resolve(input) {
       input = input.trim();
       if (!input) return null;
@@ -182,13 +194,26 @@
       if (input.includes('.')) return 'https://' + input;
       return 'https://www.google.com/search?q=' + encodeURIComponent(input);
     }
+
+    function showToast() {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    // Always open in a NEW tab so home page never gets overwritten
     function go() {
       const url = resolve(document.getElementById('url').value);
-      if (url) window.location.href = '/proxy?url=' + encodeURIComponent(url);
+      if (!url) return;
+      window.open('/proxy?url=' + encodeURIComponent(url), '_blank');
+      showToast();
     }
+
     function visit(url) {
-      window.location.href = '/proxy?url=' + encodeURIComponent(url);
+      window.open('/proxy?url=' + encodeURIComponent(url), '_blank');
+      showToast();
     }
+
     document.getElementById('url').addEventListener('keydown', e => {
       if (e.key === 'Enter') go();
     });
