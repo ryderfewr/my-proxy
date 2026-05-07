@@ -1,27 +1,40 @@
 const express = require("express");
 const http = require("http");
 const path = require("path");
-const { WispServer } = require("wisp-server-node");
+const wisp = require("wisp-server-node");
 
 const app = express();
 const server = http.createServer(app);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
-// Serve Ultraviolet's built-in files (the actual proxy engine)
-const uvPath = path.dirname(require.resolve("@titaniumnetwork-dev/ultraviolet"));
-app.use("/uv/", express.static(path.join(uvPath, "dist")));
+const uvDist = path.join(__dirname, "node_modules/@titaniumnetwork-dev/ultraviolet/dist");
+
+// Serve the root service worker with proper scope header
+app.get("/sw.js", (req, res) => {
+  res.setHeader("Service-Worker-Allowed", "/");
+  res.setHeader("Content-Type", "application/javascript");
+  res.sendFile(path.join(__dirname, "public/sw.js"));
+});
+
+// Serve our custom uv.config.js BEFORE the dist version so it takes priority
+app.get("/uv/uv.config.js", (req, res) => {
+  res.setHeader("Content-Type", "application/javascript");
+  res.sendFile(path.join(__dirname, "public/uv/uv.config.js"));
+});
+
+// Serve Ultraviolet's dist files (bundle, sw, handler, client)
+app.use("/uv/", express.static(uvDist));
 
 // Serve our public folder
 app.use(express.static(path.join(__dirname, "public")));
 
 // Wisp handles WebSocket connections (needed for sites that use websockets)
-const wispServer = new WispServer({ logLevel: "NONE" });
 server.on("upgrade", (req, socket, head) => {
   if (req.url.endsWith("/wisp/")) {
-    wispServer.routeRequest(req, socket, head);
+    wisp.routeRequest(req, socket, head);
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`Proxy running on http://localhost:${PORT}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Proxy running on http://0.0.0.0:${PORT}`);
 });

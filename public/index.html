@@ -237,7 +237,7 @@
         return;
       }
       try {
-        const reg = await navigator.serviceWorker.register('/uv/uv.sw.js', {
+        const reg = await navigator.serviceWorker.register('/sw.js', {
           scope: __uv$config.prefix,
         });
         await navigator.serviceWorker.ready;
