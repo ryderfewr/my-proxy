@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const path = require("path");
-const wisp = require("wisp-server-node");
+const { server: wisp } = require("@mercuryworkshop/wisp-js");
 
 const app = express();
 const server = http.createServer(app);
