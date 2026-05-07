@@ -16,68 +16,23 @@
       --muted: #5a5a7a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      height: 100vh;
+      min-height: 100vh;
       background: var(--bg);
       color: var(--text);
       font-family: 'DM Sans', sans-serif;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* ── Top nav bar ── */
-    #navbar {
-      display: flex;
       align-items: center;
-      gap: 8px;
-      background: #0d0d1f;
-      border-bottom: 1px solid var(--border);
-      padding: 8px 12px;
-      flex-shrink: 0;
-      z-index: 100;
-    }
-    #navbar .home-btn {
-      font-size: 22px; cursor: pointer; flex-shrink: 0;
-      transition: transform 0.15s;
-    }
-    #navbar .home-btn:hover { transform: scale(1.15); }
-    #url-bar {
-      flex: 1; padding: 8px 14px; border-radius: 10px;
-      border: 1px solid var(--border); background: var(--card);
-      color: var(--text); font-size: 14px; outline: none;
-      font-family: 'DM Sans', sans-serif;
-      transition: border-color 0.2s;
-    }
-    #url-bar:focus { border-color: var(--accent); }
-    #url-bar::placeholder { color: var(--muted); }
-    .nav-btn {
-      padding: 8px 16px; border: none; border-radius: 10px;
-      color: white; font-size: 13px; font-weight: 700;
-      cursor: pointer; white-space: nowrap; flex-shrink: 0;
-      font-family: 'Syne', sans-serif; transition: opacity 0.2s;
-    }
-    .nav-btn:hover { opacity: 0.85; }
-    .go { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
-    .back-btn { background: #1e1e35; font-size: 16px; padding: 8px 12px; }
-
-    /* ── Content area ── */
-    #content { flex: 1; position: relative; overflow: hidden; }
-
-    /* Home page */
-    #home {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 24px; padding: 24px;
-      overflow-y: auto;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
     }
     .blob {
       position: fixed; border-radius: 50%;
-      filter: blur(80px); opacity: 0.12;
+      filter: blur(80px); opacity: 0.13;
       animation: drift 10s ease-in-out infinite alternate;
-      pointer-events: none; z-index: 0;
+      pointer-events: none;
     }
     .blob1 { width: 400px; height: 400px; background: var(--accent); top: -100px; left: -100px; }
     .blob2 { width: 300px; height: 300px; background: var(--accent2); bottom: -80px; right: -80px; animation-delay: 3s; }
@@ -85,177 +40,150 @@
       from { transform: translate(0,0) scale(1); }
       to { transform: translate(30px,20px) scale(1.1); }
     }
-    .home-inner {
+
+    .container {
       position: relative; z-index: 1;
-      width: 100%; max-width: 600px;
-      display: flex; flex-direction: column; align-items: center; gap: 22px;
+      width: 100%; max-width: 620px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 24px;
     }
-    .logo-icon { font-size: 44px; animation: pulse 3s ease-in-out infinite; }
+
+    .logo-icon { font-size: 48px; animation: pulse 3s ease-in-out infinite; }
     @keyframes pulse {
       0%,100% { filter: drop-shadow(0 0 20px var(--accent)); }
       50% { filter: drop-shadow(0 0 35px var(--accent2)); }
     }
     h1 {
-      font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+      font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .subtitle { color: var(--muted); font-size: 13px; margin-top: -14px; }
+    .subtitle { color: var(--muted); font-size: 14px; margin-top: -16px; }
 
-    /* Featured CloudMoon */
+    /* Status badge */
+    #status {
+      font-size: 12px; padding: 6px 14px; border-radius: 20px;
+      border: 1px solid var(--border); color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+    #status.ready { border-color: #4caf50; color: #4caf50; }
+    #status.loading { border-color: var(--accent); color: var(--accent); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+    .dot.spin { animation: blink 1s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    /* Search bar */
+    .search-wrap { width: 100%; display: flex; gap: 10px; }
+    input {
+      flex: 1; padding: 15px 18px; border-radius: 14px;
+      border: 1px solid var(--border); background: var(--card);
+      color: var(--text); font-size: 15px; font-family: 'DM Sans', sans-serif;
+      outline: none; transition: border 0.2s, box-shadow 0.2s;
+    }
+    input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,106,255,0.15); }
+    input::placeholder { color: var(--muted); }
+    .go-btn {
+      padding: 15px 26px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none; border-radius: 14px; color: white;
+      font-size: 15px; font-weight: 700; font-family: 'Syne', sans-serif;
+      cursor: pointer; transition: opacity 0.2s, transform 0.1s;
+    }
+    .go-btn:hover { opacity: 0.9; transform: scale(1.02); }
+    .go-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Featured */
     .featured {
       width: 100%;
       background: linear-gradient(135deg, #1a1040, #2a1060);
-      border: 1px solid var(--accent);
-      border-radius: 16px; padding: 18px 20px;
-      display: flex; align-items: center; gap: 14px;
+      border: 1px solid var(--accent); border-radius: 16px;
+      padding: 18px 20px; display: flex; align-items: center; gap: 14px;
       cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
       box-shadow: 0 0 24px rgba(124,106,255,0.2);
     }
     .featured:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(124,106,255,0.35); }
-    .featured-icon { font-size: 38px; flex-shrink: 0; }
-    .featured-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
-    .featured-name { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; }
-    .featured-desc { font-size: 12px; color: #a090cc; }
-    .featured-arrow { font-size: 22px; color: var(--accent); margin-left: auto; animation: bounce 2s ease-in-out infinite; }
+    .fi { font-size: 36px; flex-shrink: 0; }
+    .fl { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+    .fn { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; }
+    .fd { font-size: 12px; color: #a090cc; }
+    .fa { font-size: 22px; color: var(--accent); margin-left: auto; animation: bounce 2s ease-in-out infinite; }
     @keyframes bounce { 0%,100%{transform:translateX(0)} 50%{transform:translateX(4px)} }
 
+    /* Grid */
     .section-label {
       align-self: flex-start; font-size: 10px; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
     }
-    .shortcuts {
-      width: 100%; display: grid;
-      grid-template-columns: repeat(3, 1fr); gap: 10px;
-    }
-    .shortcut {
+    .grid { width: 100%; display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+    .card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 14px; padding: 14px 10px; cursor: pointer;
       text-align: center; display: flex; flex-direction: column;
       align-items: center; gap: 6px;
       transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
     }
-    .shortcut:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,106,255,0.15); }
-    .si { font-size: 22px; }
-    .sn { font-size: 13px; font-weight: 500; }
-    .sd { font-size: 11px; color: var(--muted); }
-
-    /* iframe browser */
-    #browser {
-      position: absolute; inset: 0;
-      display: none;
-    }
-    #browser iframe {
-      width: 100%; height: 100%; border: none;
-    }
-    #loading {
-      position: absolute; inset: 0;
-      display: none; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: var(--bg); gap: 16px; z-index: 10;
-    }
-    .spinner {
-      width: 40px; height: 40px;
-      border: 3px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    #loading p { color: var(--muted); font-size: 14px; }
-
-    #blocked-msg {
-      position: absolute; inset: 0;
-      display: none; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: var(--bg); gap: 14px; padding: 40px; text-align: center;
-    }
-    #blocked-msg h2 { color: var(--accent2); font-family: 'Syne', sans-serif; }
-    #blocked-msg p { color: var(--muted); font-size: 14px; max-width: 400px; line-height: 1.6; }
-    #blocked-msg button {
-      padding: 10px 24px; background: var(--accent); border: none;
-      border-radius: 10px; color: white; font-size: 14px; font-weight: 700;
-      cursor: pointer; margin-top: 8px;
-    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,106,255,0.15); }
+    .ci { font-size: 22px; }
+    .cn { font-size: 13px; font-weight: 500; }
+    .cd { font-size: 11px; color: var(--muted); }
   </style>
 </head>
 <body>
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
 
-  <!-- Nav bar always visible -->
-  <div id="navbar">
-    <span class="home-btn" onclick="goHome()" title="Home">🌐</span>
-    <input id="url-bar" type="text" placeholder='Type "cloudmoon", "poki", youtube.com...' />
-    <button class="nav-btn go" onclick="navigate()">Go →</button>
-    <button class="nav-btn back-btn" onclick="goBack()">←</button>
-  </div>
+  <div class="container">
+    <div class="logo-icon">🌐</div>
+    <h1>FreeProxy</h1>
+    <p class="subtitle">Powered by Ultraviolet — sites load properly</p>
 
-  <div id="content">
-    <!-- Blobs behind home -->
-    <div class="blob blob1"></div>
-    <div class="blob blob2"></div>
+    <div id="status">
+      <div class="dot spin"></div>
+      <span id="status-text">Setting up proxy engine...</span>
+    </div>
 
-    <!-- Home page -->
-    <div id="home">
-      <div class="home-inner">
-        <div class="logo-icon">🌐</div>
-        <h1>FreeProxy</h1>
-        <p class="subtitle">Your personal window to the internet</p>
+    <div class="search-wrap">
+      <input id="url" type="text" placeholder='Type "cloudmoon", "youtube", or any site...' autofocus/>
+      <button class="go-btn" id="go-btn" onclick="go()" disabled>Go →</button>
+    </div>
 
-        <div class="featured" onclick="load('https://web.cloudmoonapp.com')">
-          <div class="featured-icon">🎮</div>
-          <div>
-            <div class="featured-label">⭐ Play Games Free</div>
-            <div class="featured-name">CloudMoon</div>
-            <div class="featured-desc">Stream & play games in your browser — no download</div>
-          </div>
-          <div class="featured-arrow">→</div>
-        </div>
+    <div class="featured" onclick="go('https://web.cloudmoonapp.com')">
+      <div class="fi">🎮</div>
+      <div>
+        <div class="fl">⭐ Play Games Free</div>
+        <div class="fn">CloudMoon</div>
+        <div class="fd">Stream & play games in your browser</div>
+      </div>
+      <div class="fa">→</div>
+    </div>
 
-        <p class="section-label">Quick Access</p>
-        <div class="shortcuts">
-          <div class="shortcut" onclick="load('https://www.google.com')">
-            <div class="si">🔍</div><div class="sn">Google</div><div class="sd">Search</div>
-          </div>
-          <div class="shortcut" onclick="load('https://www.youtube.com')">
-            <div class="si">▶️</div><div class="sn">YouTube</div><div class="sd">Videos</div>
-          </div>
-          <div class="shortcut" onclick="load('https://poki.com')">
-            <div class="si">🕹️</div><div class="sn">Poki</div><div class="sd">Browser games</div>
-          </div>
-          <div class="shortcut" onclick="load('https://itch.io')">
-            <div class="si">🎯</div><div class="sn">itch.io</div><div class="sd">Indie games</div>
-          </div>
-          <div class="shortcut" onclick="load('https://www.reddit.com')">
-            <div class="si">💬</div><div class="sn">Reddit</div><div class="sd">Communities</div>
-          </div>
-          <div class="shortcut" onclick="load('https://www.wikipedia.org')">
-            <div class="si">📖</div><div class="sn">Wikipedia</div><div class="sd">Knowledge</div>
-          </div>
-        </div>
+    <p class="section-label">Quick Access</p>
+    <div class="grid">
+      <div class="card" onclick="go('https://www.google.com')">
+        <div class="ci">🔍</div><div class="cn">Google</div><div class="cd">Search</div>
+      </div>
+      <div class="card" onclick="go('https://www.youtube.com')">
+        <div class="ci">▶️</div><div class="cn">YouTube</div><div class="cd">Videos</div>
+      </div>
+      <div class="card" onclick="go('https://poki.com')">
+        <div class="ci">🕹️</div><div class="cn">Poki</div><div class="cd">Browser games</div>
+      </div>
+      <div class="card" onclick="go('https://itch.io')">
+        <div class="ci">🎯</div><div class="cn">itch.io</div><div class="cd">Indie games</div>
+      </div>
+      <div class="card" onclick="go('https://www.reddit.com')">
+        <div class="ci">💬</div><div class="cn">Reddit</div><div class="cd">Communities</div>
+      </div>
+      <div class="card" onclick="go('https://www.wikipedia.org')">
+        <div class="ci">📖</div><div class="cn">Wikipedia</div><div class="cd">Knowledge</div>
       </div>
     </div>
-
-    <!-- iframe browser view -->
-    <div id="browser">
-      <iframe id="frame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals allow-downloads"></iframe>
-    </div>
-
-    <!-- Loading spinner -->
-    <div id="loading">
-      <div class="spinner"></div>
-      <p>Loading...</p>
-    </div>
-
-    <!-- Blocked message -->
-    <div id="blocked-msg">
-      <h2>🚫 Site blocked the proxy</h2>
-      <p>This site refuses to load inside a proxy frame. Try a different site, or use the search bar to find what you need on Google.</p>
-      <button onclick="load('https://www.google.com')">Search on Google</button>
-      <button onclick="goHome()" style="background:var(--border);margin-top:4px">← Home</button>
-    </div>
   </div>
 
+  <!-- Load UV bundle first so codec is available -->
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
   <script>
     const known = {
       cloudmoon: 'https://web.cloudmoonapp.com',
@@ -274,24 +202,13 @@
       roblox: 'https://www.roblox.com',
       friv: 'https://www.friv.com',
       coolmath: 'https://www.coolmathgames.com',
-      miniclip: 'https://www.miniclip.com',
       netflix: 'https://www.netflix.com',
-      spotify: 'https://www.spotify.com',
       twitch: 'https://www.twitch.tv',
     };
 
-    const urlBar = document.getElementById('url-bar');
-    const frame = document.getElementById('frame');
-    const homeEl = document.getElementById('home');
-    const browserEl = document.getElementById('browser');
-    const loadingEl = document.getElementById('loading');
-    const blockedEl = document.getElementById('blocked-msg');
-    let history = [];
-    let loadTimer = null;
-
     function resolve(input) {
-      input = input.trim();
       if (!input) return null;
+      input = input.trim();
       const key = input.toLowerCase().replace(/^www\./, '');
       if (known[key]) return known[key];
       if (input.startsWith('http://') || input.startsWith('https://')) return input;
@@ -299,97 +216,50 @@
       return 'https://www.google.com/search?q=' + encodeURIComponent(input);
     }
 
-    function showHome() {
-      homeEl.style.display = 'flex';
-      browserEl.style.display = 'none';
-      loadingEl.style.display = 'none';
-      blockedEl.style.display = 'none';
-    }
-
-    function showLoading() {
-      homeEl.style.display = 'none';
-      browserEl.style.display = 'none';
-      loadingEl.style.display = 'flex';
-      blockedEl.style.display = 'none';
-    }
-
-    function showBrowser() {
-      homeEl.style.display = 'none';
-      browserEl.style.display = 'block';
-      loadingEl.style.display = 'none';
-      blockedEl.style.display = 'none';
-    }
-
-    function showBlocked() {
-      homeEl.style.display = 'none';
-      browserEl.style.display = 'none';
-      loadingEl.style.display = 'none';
-      blockedEl.style.display = 'flex';
-    }
-
-    function load(url) {
-      urlBar.value = url;
-      history.push(url);
-      showLoading();
-
-      // Try loading in iframe through our proxy
-      frame.src = '/proxy?url=' + encodeURIComponent(url);
-
-      // If iframe doesn't load in 10s, show blocked message
-      clearTimeout(loadTimer);
-      loadTimer = setTimeout(() => {
-        showBlocked();
-      }, 10000);
-    }
-
-    frame.addEventListener('load', () => {
-      clearTimeout(loadTimer);
-      // Check if frame actually loaded something
-      try {
-        const doc = frame.contentDocument;
-        if (doc && doc.body && doc.body.innerHTML.length > 100) {
-          showBrowser();
-        } else {
-          showBlocked();
-        }
-      } catch(e) {
-        // Cross-origin — assume it loaded (good sign)
-        showBrowser();
-      }
-    });
-
-    frame.addEventListener('error', () => {
-      clearTimeout(loadTimer);
-      showBlocked();
-    });
-
-    function navigate() {
-      const url = resolve(urlBar.value);
-      if (url) load(url);
-    }
-
-    function goHome() {
-      frame.src = 'about:blank';
-      urlBar.value = '';
-      showHome();
-    }
-
-    function goBack() {
-      history.pop(); // remove current
-      const prev = history.pop(); // get previous
-      if (prev) {
-        load(prev);
+    function setStatus(msg, ready) {
+      document.getElementById('status-text').textContent = msg;
+      const s = document.getElementById('status');
+      const dot = s.querySelector('.dot');
+      if (ready) {
+        s.className = 'ready';
+        dot.classList.remove('spin');
       } else {
-        goHome();
+        s.className = 'loading';
+        dot.classList.add('spin');
+      }
+      document.getElementById('go-btn').disabled = !ready;
+    }
+
+    // Register the Ultraviolet service worker
+    async function registerSW() {
+      if (!('serviceWorker' in navigator)) {
+        setStatus('Browser not supported', false);
+        return;
+      }
+      try {
+        const reg = await navigator.serviceWorker.register('/uv/uv.sw.js', {
+          scope: __uv$config.prefix,
+        });
+        await navigator.serviceWorker.ready;
+        setStatus('Ready — click any site to browse!', true);
+      } catch (err) {
+        console.error('SW error:', err);
+        setStatus('Setup error: ' + err.message, false);
       }
     }
 
-    urlBar.addEventListener('keydown', e => {
-      if (e.key === 'Enter') navigate();
+    function go(directUrl) {
+      const url = directUrl || resolve(document.getElementById('url').value);
+      if (!url) return;
+      // UV encodes the URL and navigates through the service worker
+      location.href = __uv$config.prefix + __uv$config.encodeUrl(url);
+    }
+
+    document.getElementById('url').addEventListener('keydown', e => {
+      if (e.key === 'Enter') go();
     });
 
-    // Start on home
-    showHome();
+    registerSW();
   </script>
 </body>
 </html>
