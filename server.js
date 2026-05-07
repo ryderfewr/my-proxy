@@ -43,6 +43,19 @@ server.on("upgrade", (req, socket, head) => {
   }
 });
 
+// Handle server errors gracefully so the process doesn't crash
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(`Port ${PORT} is already in use. Retrying in 1s...`);
+    setTimeout(() => {
+      server.close();
+      server.listen(PORT, "0.0.0.0");
+    }, 1000);
+  } else {
+    console.error("Server error:", err);
+  }
+});
+
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Proxy running on http://0.0.0.0:${PORT}`);
 });
