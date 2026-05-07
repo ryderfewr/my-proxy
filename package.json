@@ -6,8 +6,9 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@mercuryworkshop/epoxy-transport": "^3.0.1",
     "@titaniumnetwork-dev/ultraviolet": "^3.2.2",
-    "wisp-server-node": "^1.0.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "wisp-server-node": "^1.0.5"
   }
 }

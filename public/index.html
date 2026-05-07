@@ -181,9 +181,10 @@
     </div>
   </div>
 
-  <!-- Load UV bundle first so codec is available -->
+  <!-- Load UV bundle and bare-mux client -->
   <script src="/uv/uv.bundle.js"></script>
   <script src="/uv/uv.config.js"></script>
+  <script src="/bare-mux/index.js"></script>
   <script>
     const known = {
       cloudmoon: 'https://web.cloudmoonapp.com',
@@ -230,17 +231,38 @@
       document.getElementById('go-btn').disabled = !ready;
     }
 
-    // Register the Ultraviolet service worker
+    // Register the Ultraviolet service worker and set up bare-mux transport
     async function registerSW() {
       if (!('serviceWorker' in navigator)) {
         setStatus('Browser not supported', false);
         return;
       }
       try {
+        // Register the service worker and wait for it to become active
         const reg = await navigator.serviceWorker.register('/sw.js', {
           scope: __uv$config.prefix,
         });
-        await navigator.serviceWorker.ready;
+        await new Promise((resolve) => {
+          if (reg.active) return resolve();
+          const worker = reg.installing || reg.waiting;
+          if (worker) {
+            worker.addEventListener('statechange', (e) => {
+              if (e.target.state === 'activated') resolve();
+            });
+          } else {
+            reg.addEventListener('updatefound', () => {
+              reg.installing.addEventListener('statechange', (e) => {
+                if (e.target.state === 'activated') resolve();
+              });
+            });
+          }
+        });
+
+        // Set up bare-mux transport in the background (epoxy over wisp)
+        const wispUrl = (location.protocol === 'https:' ? 'wss' : 'ws') + '://' + location.host + '/wisp/';
+        const conn = new BareMux.BareMuxConnection('/bare-mux/worker.js');
+        conn.setTransport('/epoxy/index.mjs', [{ wisp: wispUrl }]).catch(console.error);
+
         setStatus('Ready — click any site to browse!', true);
       } catch (err) {
         console.error('SW error:', err);

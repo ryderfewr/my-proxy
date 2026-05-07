@@ -8,6 +8,8 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
 const uvDist = path.join(__dirname, "node_modules/@titaniumnetwork-dev/ultraviolet/dist");
+const bareMuxDist = path.join(__dirname, "node_modules/@mercuryworkshop/bare-mux/dist");
+const epoxyDist = path.join(__dirname, "node_modules/@mercuryworkshop/epoxy-transport/dist");
 
 // Serve the root service worker with proper scope header
 app.get("/sw.js", (req, res) => {
@@ -24,6 +26,12 @@ app.get("/uv/uv.config.js", (req, res) => {
 
 // Serve Ultraviolet's dist files (bundle, sw, handler, client)
 app.use("/uv/", express.static(uvDist));
+
+// Serve bare-mux worker (SharedWorker for transport management)
+app.use("/bare-mux/", express.static(bareMuxDist));
+
+// Serve epoxy transport (WASM-based wisp transport)
+app.use("/epoxy/", express.static(epoxyDist));
 
 // Serve our public folder
 app.use(express.static(path.join(__dirname, "public")));
